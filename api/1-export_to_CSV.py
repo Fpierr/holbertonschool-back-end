@@ -9,7 +9,7 @@ import sys
 if __name__ == "__main__":
     """Check if the employee ID is passed as an argument"""
     if len(sys.argv) != 2:
-        print(f"missing employee id as argument")
+        print(f"UsageError: python3 {__file__} employeeId(int)")
         sys.exit(1)
 
     # API URL
@@ -20,6 +20,10 @@ if __name__ == "__main__":
     EMPLOYEE_TODOS = requests.get(f"{URL}/users/{EMPLOYEE_ID}/todos",
                                   params={"_expand": "user"})
     data = EMPLOYEE_TODOS.json()
+
+    if not len(data):
+        print("RequestError:", 404)
+        sys.exit(1)
 
     # Get employee name from the received data
     EMPLOYEE_NAME = data[0]["user"]["username"]
